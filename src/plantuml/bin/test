@@ -1,0 +1,11 @@
+#!/bin/bash
+cd `dirname $0`/../
+
+echo "
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+	Generating plantuml image in result_image directory ...
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+"
+
+docker run -v $(pwd):/home/plantuml/src hxhroniegss/plantuml -verbose test
+

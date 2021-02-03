@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd `dirname $0`/../
+gulp_root=$(pwd)
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Testing gulp docker image ...
+= = = = = = = = = = = = = = = = = = = 
+"
+
+docker run -it --rm -v $gulp_root/sample:/src hxhroniegss/gulp /bin/sh -c 'npm install;
+																		   gulp'

@@ -1,0 +1,11 @@
+#! /bin/bash
+
+# -----------------------------------------------------
+#
+# Push cakephp3 production image to Container Registry
+#
+# -----------------------------------------------------
+
+cd `dirname $0`/../../../../
+# Build production image
+bash ops/docker/cakephp/production/bin/build_image

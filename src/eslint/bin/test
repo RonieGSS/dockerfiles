@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd `dirname $0`/../
+root=$(pwd)
+dockerRun="docker run -it --rm -v ${root}/sample:/src hxhroniegss/eslint"
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Testing eslint docker image ...
+= = = = = = = = = = = = = = = = = = = 
+"
+
+$dockerRun --init
+$dockerRun gulpfile.js

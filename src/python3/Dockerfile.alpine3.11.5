@@ -1,0 +1,31 @@
+FROM alpine:3.11.5
+LABEL maintainer = "Ronie Vincent Horca <ronievincent.gss@gmail.com>"
+USER root:root
+RUN apk --update --no-cache add \
+    musl \
+    musl-dev \
+    build-base \
+    openssl \
+    sshpass \
+    g++ \
+    zeromq-dev \
+    file \
+    make \
+    gcc \
+    openssh-client \
+    ca-certificates \
+    libffi-dev \
+    python3 \
+    python3-dev \
+    postgresql-dev \
+    bash \
+    git \
+  && pip3 install --no-cache-dir --upgrade pip cffi \
+  && pip install --upgrade pip \
+  && rm -rf /var/cache/* \
+  && rm -rf /root/.cache/*
+
+RUN cd /usr/bin \
+  && ln -sf python3 python \
+  && ln -sf pip3 pip
+WORKDIR /home/python

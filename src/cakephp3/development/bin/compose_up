@@ -1,0 +1,52 @@
+#! /bin/bash
+cd `dirname $0`/../../../../../
+color='\033[0;96m'
+colorEnd='\033[0m'
+
+if [[ "$(uname)" == 'Linux' ]];
+then
+    color='\e[1;36m'
+    colorEnd='\e[0m'
+fi
+containerNames=("shma_cakephp" "shma_phpmyadmin" "shma_mysql")
+
+for containerName in ${containerNames[*]}
+do
+	if [[ $(docker ps -aq -f name=$containerName) ]];
+	then
+		echo "Stopping ${containerName} container..."
+		docker stop $containerName
+		echo "Deleting ${containerName} container..."
+		docker rm $containerName
+	fi
+done
+
+# apply tmp and logs permission
+sudo chmod -R 777 src/cakephp/tmp
+sudo chmod -R 777 src/cakephp/logs
+# build original image
+sh ops/docker/cakephp/original/bin/build_image
+docker-compose -f ops/docker/cakephp/development/docker-compose.yml up --build -d
+
+source ./ops/docker/bin/is_site_ready
+# Check if site is ready meaning it shows apache2 logs
+isSiteReady 'shma_cakephp' 'apache2'
+
+sh ops/docker/cakephp/development/bin/exec "migration_rollback"
+sh ops/docker/cakephp/development/bin/exec "migration_migrate"
+sh ops/docker/cakephp/development/bin/exec "migrate_acl_tables"
+sh ops/docker/cakephp/development/bin/exec "seed_migrate"
+sh ops/docker/cakephp/development/bin/exec "update_acl"
+
+echo -e "${color}
+	  ==========================================
+	   Open CakePHP on  http://localhost:4000
+	  ==========================================
+	   Open PHPmyadmin on http://localhost:5555
+	  ------------------------------------------
+	   PHPmyadmin Credentials:
+	   		Username -> root
+	   		Password -> test
+	  ==========================================
+	 "
+echo -e "${colorEnd}"

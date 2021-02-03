@@ -1,0 +1,3 @@
+@startuml ../result_image
+Alice -> Bob: test
+@enduml

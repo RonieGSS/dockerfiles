@@ -1,0 +1,21 @@
+#! /bin/bash
+
+cd `dirname $0`/../
+behat_root=$(pwd)
+composer="docker run -it --rm -v ${behat_root}/sample:/var/www/html hxhroniegss/composer"
+behat="docker run -it --rm -v ${behat_root}/sample:/src hxhroniegss/behat"
+
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Running composer install ...
+= = = = = = = = = = = = = = = = = = = 
+"
+$composer require --dev phpunit/phpunit
+
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Running behat init ...
+= = = = = = = = = = = = = = = = = = = 
+"
+
+$behat -V

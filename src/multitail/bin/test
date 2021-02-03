@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd `dirname $0`/../
+multitail_root=$(pwd)
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Testing multitail docker image ...
+= = = = = = = = = = = = = = = = = = = 
+"
+multitail="docker run -it --rm -v ${multitail_root}/sample:/var/www/html hxhroniegss/multitail"
+$multitail -iw '/var/www/html/*.log' 1

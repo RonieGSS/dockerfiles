@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd `dirname $0`/../
+php_root=$(pwd)
+echo "
+= = = = = = = = = = = = = = = = = = = =
+	Testing phpunit docker image ...
+= = = = = = = = = = = = = = = = = = = =
+"
+
+docker run -it --rm --entrypoint /bin/sh -v $php_root/sample:/src hxhroniegss/phpunit -c 'composer install; phpunit'

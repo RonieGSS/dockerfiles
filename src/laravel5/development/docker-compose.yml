@@ -1,0 +1,64 @@
+version: '3'
+services:
+
+#################################################
+# title:   Laravel Web Application
+# author:  Ronie Vincent Horca
+# contact: <ronievincent.gss@gmail.com>
+#################################################
+
+ laravel:
+   build: .
+   container_name: hxhronie_laravel
+   networks:
+    - laravel_network
+   ports:
+     - "7070:80"
+   depends_on:
+     - mysql
+   volumes:
+     - "../../../../:/var/www/html/"
+   environment:
+     - SECURITY_SALT=ashg4543323dd3434343434dsddet556kk
+     - MYSQL_URL=mysql
+     - MYSQL_USERNAME=root
+     - MYSQL_PASSWORD=test
+ mysql:
+   image: mysql:5.7.22
+   container_name: hxhronie_mysql
+   networks:
+    - laravel_network
+   volumes:
+     - mysql_laravel_data:/var/lib/mysql
+   environment:
+     - MYSQL_ROOT_PASSWORD=test
+     - MYSQL_DATABASE=laravel
+
+#################################################
+# phpmyadmin credentials
+#################################################
+# server => phpmyadmin_mysql
+# user => root
+# password => test
+# remember to import the database tables
+# to use your app
+
+ phpmyadmin:
+   image: phpmyadmin/phpmyadmin:4.7
+   container_name: hxhronie_phpmyadmin
+   networks:
+    - laravel_network
+   links:
+     - mysql:db
+   depends_on: 
+     - mysql
+   ports:
+     - "5556:80"
+   environment:
+     - PMA_HOST=mysql
+     - PMA_PORT=3306
+volumes:
+   mysql_laravel_data:
+networks:
+  laravel_network:
+

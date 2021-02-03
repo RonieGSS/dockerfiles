@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd `dirname $0`/../
+
+echo "
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+	Generating schemaspy files in test_result directory ...
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+"
+
+docker run -it --rm -v $(pwd):/src --network $MYSQL_CONTAINER_NETWORK --link $MYSQL_CONTAINER_NAME:mysql \
+	   hxhroniegss/schemaspy -t mysql -o /src/test_result -host $HOST_NAME -port $PORT -s $SCHEMA_NAME -db $DATABASE_NAME -u $DATABASE_USERNAME -p $DATABASE_PASSWORD -dp /java/mysql-con.jar

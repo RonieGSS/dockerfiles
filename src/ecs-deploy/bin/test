@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`/../
+
+echo "
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+		Checking ecs-deploy command version ...
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+"
+
+docker run --rm hxhroniegss/ecs-deploy --version

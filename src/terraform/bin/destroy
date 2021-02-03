@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cmd="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+cd `dirname $0`/../
+docker run --rm -it -u $(id -u):$(id -g) \
+	-v ~/.ssh:/home/.ssh \
+	-v $(pwd):/home/src \
+	hxhroniegss/terraform $cmd

@@ -1,0 +1,9 @@
+#! /bin/bash
+
+containerName='shma_cakephp'
+if [[ $(docker ps -q -f name=$containerName) ]];
+then
+	docker exec -it $containerName /bin/bash -c "bin/$@"
+else
+	echo 'Container not running!'
+fi

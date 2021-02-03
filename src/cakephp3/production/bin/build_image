@@ -1,0 +1,18 @@
+#! /bin/bash
+
+# -----------------------------------------
+#
+# Build cakephp3 production image
+#
+# -----------------------------------------
+
+cd `dirname $0`/../../../../
+cp .envrc.prod .envrc
+cp src/cakephp/config/app.prod.php src/cakephp/config/app.php
+direnv allow
+# apply tmp and logs permission
+sudo chmod -R 777 src/cakephp/tmp
+sudo chmod -R 777 src/cakephp/logs
+# build the cakephp3 image
+docker build -t $CLOUD_REGISTRY/cakephp3 \
+             -f ops/docker/cakephp/production/Dockerfile .

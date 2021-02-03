@@ -1,0 +1,56 @@
+version: '3'
+services:
+
+#################################################
+# title:   Cakephp Web Application
+# author:  Ronie Vincent Horca
+# contact: <ronievincent.gss@gmail.com>
+#################################################
+
+ cakephp:
+   build: .
+   container_name: shma_cakephp
+   ports:
+     - "4000:80"
+   depends_on:
+     - mysql
+   volumes:
+     - "../../../../:/var/www/html/"
+   environment:
+     - SECURITY_SALT=ashg4543323dd3434343434dsddet556kk
+     - MYSQL_URL=mysql
+     - MYSQL_USERNAME=root
+     - MYSQL_PASSWORD=test
+ mysql:
+   image: mysql:5.7.22
+   container_name: shma_mysql
+   volumes:
+     - mysql_data:/var/lib/mysql
+   environment:
+     - MYSQL_ROOT_PASSWORD=test
+     - MYSQL_DATABASE=cakephp
+
+#################################################
+# phpmyadmin credentials
+#################################################
+# server => phpmyadmin_mysql
+# user => root
+# password => test
+# remember to import the database tables
+# to use your app
+
+ phpmyadmin:
+   image: phpmyadmin/phpmyadmin:4.7
+   container_name: shma_phpmyadmin
+   links:
+     - mysql:db
+   depends_on: 
+     - mysql
+   ports:
+     - "5555:80"
+   environment:
+     - PMA_HOST=mysql
+     - PMA_PORT=3306
+volumes:
+   mysql_data:
+

@@ -1,0 +1,9 @@
+#! /bin/bash
+
+containerName='hxhronie_laravel'
+if docker ps -q -f name=$containerName;
+then
+	docker exec -it $containerName /bin/bash -c "cd ../; $@"
+else
+	echo 'Container not running!'
+fi

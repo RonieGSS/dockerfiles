@@ -1,0 +1,21 @@
+#! /bin/bash
+
+cd `dirname $0`/../
+ab_root=$(pwd)
+
+ab="docker run --rm hxhroniegss/ab"
+
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Running apache bench version ...
+= = = = = = = = = = = = = = = = = = = 
+"
+$ab -V
+
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Running apache test server ...
+= = = = = = = = = = = = = = = = = = = 
+"
+
+$ab -n 100 -c 10 https://www.apache.org/

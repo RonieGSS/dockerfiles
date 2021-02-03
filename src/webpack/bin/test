@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd `dirname $0`/../
+
+echo "
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+	Generating bundled main.js in sample/dist directory ...
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+"
+
+docker run --rm -v $(pwd)/sample:/webpack/src hxhroniegss/webpack /bin/sh -c "cd src;
+																			  npm install --save lodash;
+																			  cd ../;
+																			  npm run build"

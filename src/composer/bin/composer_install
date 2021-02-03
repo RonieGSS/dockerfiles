@@ -1,0 +1,12 @@
+#! /bin/bash
+
+cd `dirname $0`/../
+composer_root=$(pwd)
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Running composer install ...
+= = = = = = = = = = = = = = = = = = = 
+"
+composer="docker run -it --rm -v ${composer_root}/sample:/var/www/html hxhroniegss/composer"
+
+$composer install

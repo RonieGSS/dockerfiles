@@ -1,0 +1,1 @@
+# PHP Static Analysis Image

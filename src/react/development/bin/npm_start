@@ -1,0 +1,37 @@
+#! /bin/bash
+cd `dirname $0`/../../../../../
+projectPath=$(git rev-parse --show-toplevel) 
+color='\033[0;96m'
+colorEnd='\033[0m'
+
+if [[ "$(uname)" == 'Linux' ]];
+then
+    color='\e[1;36m'
+    colorEnd='\e[0m'
+fi
+containerNames=("hxhronie_react")
+
+for containerName in ${containerNames[*]}
+do
+	if [[ $(docker ps -aq -f name=$containerName) ]];
+	then
+		echo "Stopping ${containerName} container..."
+		docker stop $containerName
+		echo "Deleting ${containerName} container..."
+		docker rm $containerName
+	fi
+done
+
+# build original image
+sh ops/docker/react/original/bin/build_image
+docker build -t hxhroniegss/reactdev -f ./ops/docker/react/development/Dockerfile .
+docker run -d --name hxhronie_react -v "${projectPath}/src/react-src":/src -p 9222:3000 hxhroniegss/reactdev
+
+echo -e "${color}
+	  ==========================================
+	   Open ReactJS on  http://localhost:9222
+	  ==========================================
+	 
+	  ==========================================
+	 "
+echo -e "${colorEnd}"

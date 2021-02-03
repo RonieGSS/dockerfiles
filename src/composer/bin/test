@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd `dirname $0`/../
+composer_root=$(pwd)
+echo "
+= = = = = = = = = = = = = = = = = = = 
+	Testing composer docker image ...
+= = = = = = = = = = = = = = = = = = = 
+"
+composer="docker run -it --rm -v ${composer_root}/sample:/var/www/html hxhroniegss/composer"
+$composer --version
